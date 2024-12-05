@@ -93,6 +93,32 @@ router.post("/signin",async(req,res)=>{
   }
 })
 
+// This route is for fetching initial data for the user profile 
+router.get("/profile", authMiddleware, async (req, res) => {
+  try {
+    // Find the user by their ID
+    const user = await User.findOne({_id:req.userId});
+
+    // If the user doesn't exist, return a 404 error
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Send the user profile data
+    res.json({//agar exist ni krta to empty string
+      firstname: user.firstname || "",
+      lastname: user.lastname || "",
+      address: user.address || "",
+      mobileno: user.mobileno || "",
+      email: user.email || "",
+    });
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    res.status(500).json({ message: "An unexpected error occurred" });
+  }
+});
+
+
 const infoCheck=zod.object({
   firstname:zod.string().optional(),
   lastname:zod.string().optional(),

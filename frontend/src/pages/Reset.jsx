@@ -1,6 +1,8 @@
 import Card from "../components/Card";
 import { Link } from "react-router-dom";
 import styles from "../styles/Username.module.css"
+import axios from "axios"
+import { useNavigate } from "react-router-dom";
 export default function Reset(){
   return (
     <>
